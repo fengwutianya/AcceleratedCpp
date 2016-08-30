@@ -10,6 +10,7 @@ using namespace std;
 
 double median(vector<double>);
 double grade(double midterm, double final, const vector<double>& hw);
+istream& read_hw(istream& in, vector<double>& hw);
 
 int main()
 {
@@ -26,14 +27,21 @@ int main()
             "followed by end_of_file: ";
 
     vector<double> homework;
-    double x;
-    while (cin >> x) {
-        homework.push_back(x);
+    read_hw(cin, homework);
+    try {
+        //可能抛出异常的语句最好独立出来，不然中间发生错误
+        //准则是每个语句副作用不超过一个，这里改变输出和抛出异常都属于副作用
+        double final_grade = grade(midterm, final, homework);
+        streamsize prec = cout.precision();
+        cout << "Your final grade is " << setprecision(3)
+        << final_grade
+        <<setprecision(prec) << endl;
+    } catch (domain_error) {        //throw exception的时候保证程序能够完整结束
+                                    //否则windows上进程死
+        cout << endl << "You must enter your homework grades"
+            << "Please try again." << endl;
+        return 1;
     }
-    streamsize prec = cout.precision();
-    cout << "Your final grade is " << setprecision(3)
-            << grade(midterm, final, homework)
-            <<setprecision(prec) << endl;
 
     return 0;
 }
@@ -62,4 +70,17 @@ double grade(double midterm, double final, const vector<double>& hw)
         throw domain_error("student has done no homework!");
     }
     return grade(midterm, final, median(hw));
+}
+
+istream& read_hw(istream& in, vector<double>& hw)       //istream不能被复制，因此参数必须要引用
+{
+    if (in) {
+        hw.clear();     //使用的是引用，可更改，里面可能有我们不想要的东东
+        double x;
+        while (in >> x) {   //in错误的时候退出循环，此时要清理错误状态in.clear()
+            hw.push_back(x);
+        }
+        in.clear();     //ready for the next student.
+    }
+    return in;
 }
