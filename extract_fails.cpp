@@ -22,7 +22,7 @@ std::vector<Student_info> extract_fails(std::vector<Student_info>& students)
             fail.push_back(*iter);
             iter = students.erase(iter);    //删除操作使iter失效
                                             //erase返回新值
-                                            //erase后vector后面全部iterator都失效
+                                            //vector此处和以后的iterator全部失效
         }
         else
             ++iter;
