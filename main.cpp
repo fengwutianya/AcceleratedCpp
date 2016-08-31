@@ -20,10 +20,11 @@ int main()
         students.push_back(record);
     }
     sort(students.begin(), students.end(), compare);
-    for (vector<Student_info>::size_type i = 0; i != students.size(); i++) {
-        cout << setw(maxlen + 1) << students[i].name;
+    for (vector<Student_info>::const_iterator iter = students.begin();
+         iter != students.end(); iter++) {
+        cout << setw(maxlen + 1) << iter->name;
         try {
-            double final_grade = grade(students[i]);
+            double final_grade = grade(*iter);
             streamsize prec = cout.precision();
             cout << setprecision(3) << final_grade
                 << setprecision(prec);

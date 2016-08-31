@@ -16,14 +16,16 @@ std::vector<Student_info> extract_fails(std::vector<Student_info>& students)
 {
     std::vector<Student_info> fail;
 
-    std::vector<Student_info>::size_type i = 0;
-    while (i != students.size()) {
-        if (fgrade(students[i])) {
-            fail.push_back(students[i]);
-            students.erase(students.begin() + i);
+    std::vector<Student_info>::iterator iter = students.begin();
+    while (iter != students.end()) {
+        if (fgrade(*iter)) {
+            fail.push_back(*iter);
+            iter = students.erase(iter);    //删除操作使iter失效
+                                            //erase返回新值
+                                            //erase后vector后面全部iterator都失效
         }
         else
-            ++i;
+            ++iter;
     }
     return fail;
 }
