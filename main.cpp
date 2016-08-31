@@ -3,14 +3,18 @@
 #include <iostream>
 #include <vector>       //vector
 #include <algorithm>    //sort, max
+#include <string>
 #include <stdexcept>    //domain_error extends from exception
 #include "Student_info.h"
 #include "grade.h"
+#include "test_string/split.h"
 
 using namespace std;
 
 int main()
 {
+
+//1
     vector<Student_info> students;
     Student_info record;
     std::string::size_type maxlen = 0;                   //max size of the student_name
@@ -35,4 +39,5 @@ int main()
     }
 
     return 0;
+//1
 }
