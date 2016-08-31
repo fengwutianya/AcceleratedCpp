@@ -14,15 +14,16 @@ bool fgrade(const Student_info& s)
 
 std::vector<Student_info> extract_fails(std::vector<Student_info>& students)
 {
-    std::vector<Student_info> pass, fail;
+    std::vector<Student_info> fail;
 
-    for (std::vector<Student_info>::size_type i = 0;
-         i != students.size(); ++i) {
-        if (fgrade(students[i]))
+    std::vector<Student_info>::size_type i = 0
+    while (i != students.size()) {
+        if (fgrade(students[i])) {
             fail.push_back(students[i]);
+            students.erase(students[i]);
+        }
         else
-            pass.push_back(students[i]);
+            ++i;
     }
-    students = pass;
     return fail;
 }
