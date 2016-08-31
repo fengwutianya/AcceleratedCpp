@@ -16,11 +16,11 @@ std::vector<Student_info> extract_fails(std::vector<Student_info>& students)
 {
     std::vector<Student_info> fail;
 
-    std::vector<Student_info>::size_type i = 0
+    std::vector<Student_info>::size_type i = 0;
     while (i != students.size()) {
         if (fgrade(students[i])) {
             fail.push_back(students[i]);
-            students.erase(students[i]);
+            students.erase(students.begin() + i);
         }
         else
             ++i;
